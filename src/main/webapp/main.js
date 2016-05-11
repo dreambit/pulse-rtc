@@ -118,7 +118,7 @@ function main($scope) {
         /**
          * Socket connection
          */
-        $scope.socket = new WebSocket("wss://" + location.host + "/pulse-rtc/users");
+        $scope.socket = new WebSocket("ws://" + location.host + "/pulse-rtc/users");
 
         /**
          * Current connected user
@@ -133,7 +133,7 @@ function main($scope) {
         /**
          * ICE servers config
          */
-        $scope.servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}]};
+        $scope.servers = {"iceServers":[{"urls":["turn:173.194.71.127:19305?transport=udp"],"username":"1463036085:B1DBrk++","credential":"NmCPAObP2IxJi2MwmcFbhxNUoNI="}],"iceTransportPolicy":"all","rtcpMuxPolicy":"negotiate"};
 
         /**
          * Local stream got by the getUserMedia func.
@@ -350,7 +350,7 @@ function main($scope) {
                     $scope.peerConnection.addStream(stream);
 
                     log("Creating offer");
-                    $scope.peerConnection.createOffer(gotDescription, e => log("Creating offer error: " + e), $scope.offerOptions);
+                    $scope.peerConnection.createOffer($scope.offerOptions).then(gotDescription, e => log("Creating offer error: " + e));
                 };
             
 
